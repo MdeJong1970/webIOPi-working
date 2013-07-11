@@ -133,7 +133,7 @@ class LCD6x20(I2C):
         self.write_lcd(self.LCD_DATA_E2, self.LCD_DISPLAYCONTROL | self.displaycontrol)
         self.write_lcd(self.LCD_DATA_E2, self.LCD_RETURNHOME)
 
-        
+
     def __str__(self):
         return "lcd 6x20"
 
@@ -150,7 +150,7 @@ class LCD6x20(I2C):
     def out4(self, chip_cs, bitmask, value):
        hi = bitmask | ((value >> 4)<<3)
        lo = bitmask | ((value & 0x0F)<<3)
-       return [hi | chip_cs, hi, lo | chip_cs, lo]
+       return [(hi | chip_cs), hi, (lo | chip_cs), lo]
 
 
     # The speed of LCD accesses is inherently limited by I2C through the
@@ -170,8 +170,9 @@ class LCD6x20(I2C):
     # Write byte, list or string value to LCD
     def write_lcd(self, chip_cs, value, char_mode=False):
         """ Send command/data to LCD """
-        bitmask = 0;
-        if char_mode: bitmask |= self.LCD_DATA_RS |self.led # Set data bit if not a command
+        bitmask = self.led;
+        if char_mode:
+            bitmask |= self.LCD_DATA_RS   # Set data bit if not a command
         self.writeRegister( self.MCP23008_IOCON, 0x20 )
         # If string or list, iterate through multiple write ops
         if isinstance(value, str):

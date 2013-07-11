@@ -32,8 +32,8 @@ setup(name             = 'WebIOPi',
                           "webiopi.devices.analog",
                           "webiopi.devices.sensor",
                           "webiopi.devices.shield",
-			  "webiopi.devices.lcd",
-			  "webiopi.devices.led"
+                          "webiopi.devices.lcd",
+                          "webiopi.devices.led"
                           ],
       ext_modules      = [Extension('_webiopi.GPIO', ['native/bridge.c', 'native/gpio.c', 'native/cpuinfo.c'])],
       )
